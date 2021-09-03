@@ -9,6 +9,12 @@
 #include "first_module/first_module.hpp"
 #include "second_module/second_module.hpp"
 
+/// Run template program
+///
+/// @param argc: Number of arguments.
+/// @param argv: Arguments
+///
+/// @return: 0
 int main(int argc, char **argv) {
   for (int i = 0; i < argc; i++) {
     std::cout << argv[i] << std::endl;
