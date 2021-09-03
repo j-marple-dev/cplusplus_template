@@ -24,48 +24,6 @@ function run_cmd_on_source() {
     echo "$exitCode"
 }
 
-function run_unit_tests() {
-    file_lists=`ls ../devel/lib/vps_c_project/vps_c_project-test-*`
-    if [ -z "$file_lists" ]; then
-        echo >&2 ""
-        echo >&2 "Please run this script in {CATKIN_WS}/src"
-        echo >&2 " ex) bash VPS_C_project/run_check.sh test"
-
-        echo "1"
-        return
-    fi
-
-    exitCode=0
-    failedTestNames=()
-    for entry in $file_lists
-    do
-        eval >&2 "$entry"
-
-        retVal=$?
-
-        if [ $retVal -ne 0 ]; then
-            exitCode=$retVal
-            failedTestNames+=("$entry")
-        fi
-    done
-
-    failNumber=${#failedTestNames[@]}
-    echo >&2 "======== Total $failNumber test has failed. ========"
-
-    if [ $failNumber -gt 0 ]; then
-        echo >&2 " * List of failed tests"
-
-        for testName in "${failedTestNames[@]}"
-        do
-            echo >&2 "   - $testName"
-        done
-    fi
-
-    echo "$exitCode"
-}
-
-declare -A CMD_LIST
-
 CMD_FORMAT="clang-format-6.0 -verbose -style=file -i"
 CMD_LINT="cpplint"
 # CMD_DOC_CHECK="( cat Doxyfile ; echo "GENERATE_HTML=NO"  ) | doxygen -"
@@ -83,8 +41,8 @@ elif [ "$1" = "all" ]; then
 elif [ "$1" = "doc_check" ]; then
     run_cmd=( "doc_check" )
 elif [ "$1" = "test" ]; then
-    result=$(run_unit_tests)
-    exit $result
+    echo "Unit test(TBD)"
+    exit 0
 elif [ "$1" = "init-precommit" ]; then
     eval $CMD_INIT_PRECOMMIT
     exit $?
