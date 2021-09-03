@@ -31,7 +31,7 @@ jobs:
       - name: all
         shell: bash -l {0}
         run: |
-          ./run_check all
+          ./run_check.sh all
 
   build-test:
     runs-on: ubuntu-18.04
