@@ -19,15 +19,15 @@ jobs:
       - name: format
         shell: bash -l {0}
         run: |
-          ./run_check format
+          ./run_check.sh format
       - name: lint 
         shell: bash -l {0}
         run: |
-          ./run_check lint 
+          ./run_check.sh lint 
       - name: doc_check 
         shell: bash -l {0}
         run: |
-          ./run_check doc_check
+          ./run_check.sh doc_check
       - name: all
         shell: bash -l {0}
         run: |
