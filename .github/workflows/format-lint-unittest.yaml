@@ -40,4 +40,13 @@ jobs:
       - name: build
         shell: bash -l {0}
         run: mkdir build && cd build && cmake .. && make
-      
+
+  unit-test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Install gtest manually
+        run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
+      - name: build and unit test
+        shell: bash -l {0}
+        run: mkdir build && cd build && cmake -Dtest=true .. && make && make test
