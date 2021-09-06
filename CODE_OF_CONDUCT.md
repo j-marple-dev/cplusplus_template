@@ -2,6 +2,32 @@
 - We follow [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) guideline.
 
 # 2. Code check tool
+## Environment setup
+- `clang-format` v6.0.0
+- `cpplint` v1.5.5
+- `cppcheck` v1.8.2
+- `doxygen` v1.9.2
+- `cmake` >= 3.20.5
+### Install CMake >= 3.20.5
+* Download CMake from https://cmake.org/download/ for the suitable platform
+``` shell
+# ex) Current Make version is 3.10.2
+cd ~
+wget https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-linux-x86_64.tar.gz
+tar -xzvf cmake-3.21.0-linux-x86_64.tar.gz
+
+# Backup previous CMake just in case
+sudo mv /usr/bin/cmake /usr/bin/cmake.3.10.2
+sudo mv /usr/bin/ctest /usr/bin/ctest.3.10.2
+sudo mv /usr/bin/cpack /usr/bin/cpack.3.10.2
+
+# Make softlink to /usr/bin
+sudo ln -s ${HOME}/cmake-3.21.0-linux-x86_64/bin/cmake /usr/bin/cmake
+sudo ln -s ${HOME}/cmake-3.21.0-linux-x86_64/bin/ctest /usr/bin/ctest
+sudo ln -s ${HOME}/cmake-3.21.0-linux-x86_64/bin/cpack /usr/bin/cpack
+```
+
+
 ## 2.1. Formating
 ```shell
 ./run_check.sh format
