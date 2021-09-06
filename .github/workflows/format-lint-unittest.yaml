@@ -40,4 +40,11 @@ jobs:
       - name: build
         shell: bash -l {0}
         run: mkdir build && cd build && cmake .. && make
-      
+
+  unit-test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: build
+        shell: bash -l {0}
+        run: mkdir build && cd build && cmake .. && make test   
