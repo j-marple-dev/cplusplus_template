@@ -27,7 +27,7 @@ RUN sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt-get install python3.8
 RUN sudo mv /usr/bin/python /usr/bin/python.old && \
 	sudo ln -s /usr/bin/pip3 /usr/bin/pip && \
     sudo ln -s /usr/bin/python3.8 /usr/bin/python
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py --force-reinstall && python -m pip install --upgrade pip
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py --force-reinstall && python -m pip install --upgrade pip && rm get-pip.py
 
 # Install C++ linter
 RUN python -m pip install wheel cpplint
