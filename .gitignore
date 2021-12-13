@@ -34,3 +34,6 @@
 # Builds
 build/
 html/
+
+# Docker related
+.last_exec_cont_id.txt
