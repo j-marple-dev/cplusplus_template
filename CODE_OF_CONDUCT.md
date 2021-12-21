@@ -50,9 +50,7 @@ sudo ln -s ${HOME}/cmake-3.21.0-linux-x86_64/bin/cpack /usr/bin/cpack
 
 # 3. Unit testing
 ```shell
-mkdir build
-cd build
-cmake .. && make && make test
+./run_check.sh test
 ```
 
 # 4. Commit
