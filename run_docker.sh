@@ -26,6 +26,9 @@ if [ "$1" = "build" ]; then
     echo "Building a docker image with tagname $DOCKER_TAG and arguments $CMD_ARGS"
     docker build . -t $DOCKER_TAG $CMD_ARGS --build-arg UID=`id -u` --build-arg GID=`id -g`
 elif [ "$1" = "run" ]; then
+    if test -f "$HOME/.gitconfig"; then
+        CMD_ARGS="$CMD_ARGS -v $HOME/.gitconfig:/home/user/.gitconfig"
+    fi
     echo "Run a docker image with tagname $DOCKER_TAG and arguments $CMD_ARGS"
 
     docker run -tid --privileged --gpus all \
