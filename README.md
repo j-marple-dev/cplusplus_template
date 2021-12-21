@@ -25,15 +25,12 @@ cd cplusplus_template
 ./run_docker.sh exec
 ```
 
-# Build
+# Build & Unit test
 ```shell
 git clone https://github.com/j-marple-dev/cplusplus_template.git
 cd cplusplus_template
-mkdir build
-cd build
-cmake ..
-make
-make test # Run unit test
+./run_check.sh build  # Equivalent to mkdir -p ./build && cd build && cmake .. && make
+./run_check.sh test  # Equivalent to mkdir -p ./build && cd build && cmake .. && make && make test
 ```
 
 # Developers
