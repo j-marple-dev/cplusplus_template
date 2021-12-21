@@ -32,8 +32,8 @@ CMD_INIT_PRECOMMIT="pre-commit install --hook-type pre-commit --hook-type pre-pu
 CMD_PREBUILD="mkdir -p build"
 CMD_CLEAN_BUILD="rm -rf build/*"
 CMD_MAKE_N_THREAD="make -j `cat /proc/cpuinfo | grep processor | wc -l`"
-CMD_UNITTEST="$CMD_PREBUILD && cd build && cmake -Dtest=true .. && $CMD_MAKE_N_THREAD && make install && make test"
-CMD_BUILD="$CMD_PREBUILD && cd build && cmake .. && $CMD_MAKE_N_THREAD && make install"
+CMD_UNITTEST="$CMD_PREBUILD && cd build && cmake -Dtest=true .. && $CMD_MAKE_N_THREAD && make test"
+CMD_BUILD="$CMD_PREBUILD && cd build && cmake .. && $CMD_MAKE_N_THREAD"
 
 run_cmd=( "$CMD_FORMAT" )
 
