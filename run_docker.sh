@@ -17,12 +17,20 @@ DOCKER_TAG=$ORG/$PRJ_NAME
 CMD_ARGS=( ${@} )
 CMD_ARGS=${CMD_ARGS[*]:1}
 
+RUN_SHELL=/usr/bin/zsh
+
 if [[ $2 == :* ]]; then
     DOCKER_TAG=$DOCKER_TAG$2
+    CMD_ARGS=${CMD_ARGS[*]:2}
+elif [ "$2" = "bash" ]; then
+    RUN_SHELL=/bin/bash
     CMD_ARGS=${CMD_ARGS[*]:2}
 fi
 
 if [ "$1" = "build" ]; then
+    if [ "$RUN_SHELL" = "/bin/bash" ]; then
+        CMD_ARGS="$CMD_ARGS --build-arg USE_ZSH=false"
+    fi
     echo "Building a docker image with tagname $DOCKER_TAG and arguments $CMD_ARGS"
     docker build . -t $DOCKER_TAG $CMD_ARGS --build-arg UID=`id -u` --build-arg GID=`id -g`
 elif [ "$1" = "run" ]; then
@@ -39,18 +47,18 @@ elif [ "$1" = "run" ]; then
         -v $PWD:/home/user/$PRJ_NAME \
         --network host \
         $CMD_ARGS \
-        $DOCKER_TAG /bin/bash
+        $DOCKER_TAG $RUN_SHELL
 
     last_cont_id=$(docker ps -qn 1)
     echo $(docker ps -qn 1) > $PWD/.last_exec_cont_id.txt
 
-    docker exec -ti $last_cont_id /bin/bash
+    docker exec -ti $last_cont_id $RUN_SHELL
 elif [ "$1" = "exec" ]; then
     echo "Execute the last docker container"
 
     last_cont_id=$(tail -1 $PWD/.last_exec_cont_id.txt)
     docker start ${last_cont_id}
-    docker exec -ti ${last_cont_id} /bin/bash
+    docker exec -ti ${last_cont_id} $RUN_SHELL
 else
     echo ""
     echo "============= $0 [Usages] ============"
@@ -59,6 +67,4 @@ else
     echo "2) $0 run : launch a new docker container"
     echo "3) $0 exec : execute last container launched"
 fi
-
-
 

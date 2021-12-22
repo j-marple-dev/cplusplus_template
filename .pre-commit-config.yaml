@@ -11,8 +11,15 @@ repos:
         language: system
         entry: ./run_check.sh lint 
         stages: [commit, push]
+    -   id: unittest
+        name: unittest
+        language: system
+        entry: ./run_check.sh test
+        stages: [push]
+        require_serial: true
     -   id: doc_check 
         name: doc_check
         language: system
         entry: ./run_check.sh doc_check
         stages: [push]
+        require_serial: true
