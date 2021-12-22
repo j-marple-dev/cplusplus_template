@@ -16,3 +16,4 @@ repos:
         language: system
         entry: ./run_check.sh doc_check
         stages: [push]
+        require_serial: true
