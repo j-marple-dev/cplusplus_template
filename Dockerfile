@@ -30,7 +30,7 @@ RUN sudo mv /usr/bin/python /usr/bin/python.old && \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py --force-reinstall && python -m pip install --upgrade pip && rm get-pip.py
 
 # Install C++ linter
-RUN python -m pip install wheel cpplint
+RUN python -m pip install wheel cpplint pre-commit
 
 # Terminal environment
 RUN git clone https://github.com/JeiKeiLim/my_term.git \
@@ -70,9 +70,28 @@ RUN git clone -b Release_1_9_2 https://github.com/doxygen/doxygen.git \
     && mkdir build \
     && cd build \
     && cmake -G "Unix Makefiles" .. \
-    && make -j `cat /proc/cpuinfo | grep cores | wc -l` \
+    && make -j `cat /proc/cpuinfo | grep processor | wc -l` \
     && sudo make install
+
+# Install gtest
+RUN sudo apt-get -y install libgtest-dev && cd /usr/src/gtest && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib && sudo ln -s /usr/lib/libgtest.a /usr/local/lib/libgtest.a && sudo ln -s /usr/lib/libgtest_main.a /usr/local/lib/libgtest_main.a
 
 # Add PATH
 RUN echo "export PATH=/home/user/.local/bin:\$PATH" >> /home/user/.bashrc
 RUN echo "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8" >> /home/user/.bashrc
+
+# Install zsh with powerlevel10k theme
+ARG USE_ZSH=true
+
+RUN sudo apt-get install -y zsh && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+COPY res/.zshrc res/.p10k.zsh /home/user/
+RUN sudo chown user:user .zshrc .p10k.zsh
+
+RUN if [ "$USE_ZSH" = "true" ]; then \
+    sudo chsh -s $(which zsh) $(whoami) && \
+    echo "\n# Custom settings" >> /home/user/.zshrc && \
+    echo "export PATH=/home/user/.local/bin:\$PATH" >> /home/user/.zshrc && \
+    echo "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8" >> /home/user/.zshrc; \
+    fi
