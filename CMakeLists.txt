@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20.5)
 project(
-	cplucplus_template  # Change this for your project name
+	cpluscplus_template  # Change this for your project name
 	VERSION 0.1.0
 )
 
@@ -13,21 +13,32 @@ set(BUILD_SHARED_LIBS OFF)
 
 include_directories( include )
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/cplucplu_template/main.cpp")
+file(GLOB SOURCES_EXECUTABLE "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-if (BUILD_SHARED_LIBS)
-    add_library( ${PROJECT_NAME}_lib ${SOURCES} )
+# Remove executable cpp files
+FOREACH(source_executable ${SOURCES_EXECUTABLE})
+    list(REMOVE_ITEM SOURCES ${source_executable})
+ENDFOREACH()
 
-    add_executable( ${PROJECT_NAME}
-        src/cplucplu_template/main.cpp
-    )
-    target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
-else()
-    add_executable( ${PROJECT_NAME}
-        ${SOURCES}
-        src/cplucplu_template/main.cpp
-    )
-endif()
+# Add executable list of executable cpp files
+FOREACH(source_executable ${SOURCES_EXECUTABLE})
+    get_filename_component(source_executable_name ${source_executable} NAME_WLE)
+    set(executable_name ${PROJECT_NAME}-${source_executable_name})
+
+    if (BUILD_SHARED_LIBS)
+        add_library( ${PROJECT_NAME}_lib ${SOURCES} )
+
+        add_executable( ${executable_name}
+            ${source_executable}
+        )
+        target_link_libraries(${executable_name} ${PROJECT_NAME}_lib)
+    else()
+        add_executable( ${executable_name}
+            ${SOURCES}
+            ${source_executable}
+        )
+    endif()
+ENDFOREACH()
 
 if (test)
     set(TEST_NAME_BASE test-${PROJECT_NAME})

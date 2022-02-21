@@ -51,8 +51,8 @@ RUN wget -q https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.2
     && sudo mv /usr/bin/ctest /usr/bin/ctest.old \
     && sudo mv /usr/bin/cpack /usr/bin/cpack.old \
     && sudo ln -s /home/user/cmake-3.21.0-linux-x86_64/bin/cmake /usr/bin/cmake \
-    && sudo ln -s /home/user/root/cmake-3.21.0-linux-x86_64/bin/ctest /usr/bin/ctest \
-    && sudo ln -s /home/user/root/cmake-3.21.0-linux-x86_64/bin/cpack /usr/bin/cpack \
+    && sudo ln -s /home/user/cmake-3.21.0-linux-x86_64/bin/ctest /usr/bin/ctest \
+    && sudo ln -s /home/user/cmake-3.21.0-linux-x86_64/bin/cpack /usr/bin/cpack \
     && rm cmake-3.21.0-linux-x86_64.tar.gz
 
 RUN cd /home/user/.vim_runtime/my_plugins \

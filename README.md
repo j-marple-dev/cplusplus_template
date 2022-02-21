@@ -10,6 +10,12 @@ This repository is base project template for C++
   - GitHub action
 
 ## Docker support
+
+* Our docker supports development environment out of box.
+    * zsh with powerlevel10k theme
+    * tmux
+    * VIM with YCM support.
+
 ```shell
 git clone https://github.com/j-marple-dev/cplusplus_template.git
 cd cplusplus_template
@@ -24,6 +30,12 @@ cd cplusplus_template
 # Re-run last docker container
 ./run_docker.sh exec
 ```
+
+# Executable and unit test files
+
+* Locate executable main cpp files on `src/*.cpp`. And `${PROJECT_NAME}-${FILE_NAME}` binary files will be built. No need to modify `CMakeLists.txt`.
+* Locate unit test cpp files on `test/test_*.cpp`. And `test-${PROJECT_NAME}-${FILE_NAME}` binary files will be built. No need to modify `CMakeLists.txt`.
+
 
 # Build & Unit test
 ```shell
